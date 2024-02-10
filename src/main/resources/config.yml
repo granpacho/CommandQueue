@@ -1,0 +1,56 @@
+permission: "cq.admin"
+always-once: false
+messages:
+  commands:
+    help:
+      - "&8&m                                                   "
+      - "&eCommand Queue Help"
+      - "&8&m                                                   "
+      - "&e[] &8- &eRequired"
+      - "&e() &8- &eOptional"
+      - " "
+      - "&8- &e/cq help &7- &fDisplays the plugin help."
+      - "&8- &e/cq history [player] &7- &fShows the previous commands of a player."
+      - "&8- &e/cq list [player] &7- &fLists the current commands of a player."
+      - "&8- &e/cq queue [player] (once) [command] &7- &fQueue a command to be run when a player joins."
+      - "&8- &e/cq reload &7- &fReloads the plugin."
+      - "&8- &e/cq remove [player] [number] &7- &fRemoves the commands of a player."
+      - "&8&m                                                   "
+    history:
+      header: "&e%player%'s History Commands"
+      spacer: "&8&m                                                   "
+      history-commands:
+        - "&8- &eNumber: &f%number%"
+        - "&8- &eCommand: &f%command%"
+        - "&8- &eOnce: &f%once%"
+        - "&8- &eRun Times: &f%run_times%"
+        - "&8- &eAdded By: &f%added_by%"
+        - "&8- &eDate Added: &f%date_added%"
+        - "&8- &eCommand Ran: &f%ran_command%"
+        - "&8- &eRemoved By: &f%removed_by%"
+        - "&8- &eDate Removed: &f%date_removed%"
+      invalid-command: "&cInvalid Command! Usage: /cq history [player]"
+    list:
+      header: "&e%player%'s Commands"
+      spacer: "&8&m                                                   "
+      list-commands:
+        - "&8- &eNumber: &f%number%"
+        - "&8- &eCommand: &f%command%"
+        - "&8- &eOnce: &f%once%"
+        - "&8- &eRun Times: &f%run_times%"
+        - "&8- &eAdded By: &f%added_by%"
+        - "&8- &eDate Added: &f%date_added%"
+      invalid-command: "&cInvalid Command! Usage: /cq list [player]"
+    queue:
+      added-command: "&aYou have successfully added &e%command% &ato &e%player%&a!"
+      added-command-once: "&aYou have successfully added the command &e%command% &ato run once to &e%player%&a!"
+      invalid-command: "&cInvalid Command! Usage: /cq queue [player] (once) [command]"
+    reload: "&aYou have successfully reloaded the plugin!"
+    remove:
+      removed-command: "&aYou removed the command &e%command% &afrom &e%player%&a!"
+      invalid-command: "&cInvalid Command! Usage: /cq remove [player] [number]"
+  console: "&cYou cannot run this command from console!"
+  invalid-command: "&cInvalid Command! Usage: /cq [help, history, list, queue, reload, remove]"
+  invalid-player: "&cInvalid player!"
+  invalid-number: "&cInvalid Number!"
+  no-permission: "&cYou do not have permission to preform this command!"

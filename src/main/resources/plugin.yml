@@ -1,0 +1,10 @@
+name: CommandQueue
+version: '${version}'
+main: com.ramoplayz.commandqueue.CommandQueuePlugin
+api-version: '1.20'
+commands:
+  commandqueue:
+    aliases:
+      - cq
+      - cqueue
+      - commandq
