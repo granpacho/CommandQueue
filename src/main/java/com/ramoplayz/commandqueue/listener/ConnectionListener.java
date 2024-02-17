@@ -42,4 +42,5 @@ public class ConnectionListener implements Listener {
 		}
 		commands.clear();
 	}
+
 }

@@ -16,7 +16,7 @@ public class RemoveSubCommand extends SubCommand {
 
 	private QueueManager queueManager;
 
-	List<String> commands = new ArrayList<>();
+	private List<String> commands = new ArrayList<>();
 
 	public RemoveSubCommand(QueueManager queueManager) {
 		super("remove");

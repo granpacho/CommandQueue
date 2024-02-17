@@ -35,11 +35,15 @@ public final class CommandQueuePlugin extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new ConnectionListener(queueManager), this);
 
 		enbaleCommand();
+
+		getLogger().info("CommandQueue has been enabled!");
 	}
 
 	@Override
 	public void onDisable() {
 		commandQueueCommand.getSubCommands().clear();
+
+		getLogger().info("CommandQueue has been disabled!");
 	}
 
 	private void registerClasses() {
