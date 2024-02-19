@@ -42,7 +42,7 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 			player.sendMessage(Messages.INVALID_COMMAND.getMessage());
 			return true;
 		}
-
+		
 		subCommand.execute(player, Arrays.copyOfRange(args, 1, args.length));
 
 		return false;
