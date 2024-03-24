@@ -16,6 +16,9 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 
 	private HashMap<String, SubCommand> subCommands = new HashMap<>();
 
+	private List<UUID> vanished = new ArrayList<>();
+
+
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
@@ -42,17 +45,18 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 			player.sendMessage(Messages.INVALID_COMMAND.getMessage());
 			return true;
 		}
-		
+
 		subCommand.execute(player, Arrays.copyOfRange(args, 1, args.length));
 
 		return false;
+
 	}
 
 	@Override
 	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
 		if (args.length == 1) {
-			return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "history", "queue", "reload", "remove"), new ArrayList<>());
+			return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "history", "list", "queue", "reload", "remove"), new ArrayList<>());
 		}
 
 		SubCommand subCommand = getSubCommand(args[0]);

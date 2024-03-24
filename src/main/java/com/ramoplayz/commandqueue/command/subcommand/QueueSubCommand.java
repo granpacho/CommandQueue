@@ -4,6 +4,7 @@ import com.ramoplayz.commandqueue.Messages;
 import com.ramoplayz.commandqueue.command.SubCommand;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
+import com.ramoplayz.commandqueue.object.Command;
 import com.ramoplayz.commandqueue.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +13,7 @@ import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class QueueSubCommand extends SubCommand {
@@ -34,36 +36,36 @@ public class QueueSubCommand extends SubCommand {
 
 		try {
 			Bukkit.getOfflinePlayer(args[0]);
-		} catch (ArrayIndexOutOfBoundsException x) {
-			sender.sendMessage(Messages.QUEUE_INVALID_COMMAND.getMessage());
-			return;
-		}
 
-		if (Bukkit.getOfflinePlayer(args[0]) == null) {
-			sender.sendMessage(Messages.INVALID_PLAYER.getMessage());
-		}
+			if (Bukkit.getOfflinePlayer(args[0]) == null) {
+				sender.sendMessage(Messages.INVALID_PLAYER.getMessage());
+			}
 
-		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-
-		try {
 			if (args[2] == null || args[2].isBlank() || args[2].isEmpty()) {
 				sender.sendMessage(Messages.QUEUE_INVALID_COMMAND.getMessage());
 				return;
 			}
+
 		} catch (ArrayIndexOutOfBoundsException x) {
 			sender.sendMessage(Messages.QUEUE_INVALID_COMMAND.getMessage());
 			return;
 		}
 
+		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+
 		StringBuilder command = new StringBuilder();
 
-		for (int i = 2; i < args.length; i++) {
-			command.append(args[i] + " ");
-		}
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 
 		if (FileManager.getConfig().getBoolean("always-once") == true || args[1].equalsIgnoreCase("once")) {
 
-			queueManager.insertCommand(target, command.toString().trim(), true, sender);
+			for (int i = 2; i < args.length; i++) {
+				command.append(args[i] + " ");
+			}
+
+			queueManager.insertCommand(new Command(target.getUniqueId(), command.toString().trim(), true, 0, sender.getUniqueId(), cal));
 
 			sender.sendMessage(MessageUtil.translate(FileManager.getMessage("commands.queue.added-command-once"))
 					.replace("%command%", command.toString().trim())
@@ -71,7 +73,11 @@ public class QueueSubCommand extends SubCommand {
 			return;
 		}
 
-		queueManager.insertCommand(target, command.toString().trim(), false, sender);
+		for (int i = 1; i < args.length; i++) {
+			command.append(args[i] + " ");
+		}
+
+		queueManager.insertCommand(new Command(target.getUniqueId(), command.toString().trim(), false, 0, sender.getUniqueId(), cal));
 
 		sender.sendMessage(MessageUtil.translate(FileManager.getMessage("commands.queue.added-command"))
 				.replace("%command%", command.toString().trim())

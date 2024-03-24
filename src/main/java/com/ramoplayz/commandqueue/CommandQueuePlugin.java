@@ -6,11 +6,13 @@ import com.ramoplayz.commandqueue.listener.ConnectionListener;
 import com.ramoplayz.commandqueue.manager.DatabaseManager;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
+import com.ramoplayz.commandqueue.object.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
+import java.util.Calendar;
 
 public final class CommandQueuePlugin extends JavaPlugin {
 
@@ -30,7 +32,7 @@ public final class CommandQueuePlugin extends JavaPlugin {
 		databaseManager.setupDatabase();
 
 		connection = databaseManager.getConnection();
-		queueManager = new QueueManager(connection);
+		queueManager = new QueueManager(this, connection);
 
 		Bukkit.getPluginManager().registerEvents(new ConnectionListener(queueManager), this);
 
@@ -64,6 +66,8 @@ public final class CommandQueuePlugin extends JavaPlugin {
 	}
 
 	public void queueCommand(OfflinePlayer target, String command, boolean once, OfflinePlayer sender) {
-		queueManager.insertCommand(target, command, once, sender);
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+		queueManager.insertCommand(new Command(target.getUniqueId(), command, once, 0, sender.getUniqueId(), cal));
 	}
 }

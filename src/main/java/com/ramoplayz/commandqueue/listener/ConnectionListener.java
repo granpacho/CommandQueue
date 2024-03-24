@@ -1,20 +1,18 @@
 package com.ramoplayz.commandqueue.listener;
 
 import com.ramoplayz.commandqueue.manager.QueueManager;
+import com.ramoplayz.commandqueue.object.Command;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionListener implements Listener {
 
 	private QueueManager queueManager;
-
-	private List<String> commands = new ArrayList<>();
 
 	public ConnectionListener(QueueManager queueManager) {
 		this.queueManager = queueManager;
@@ -24,23 +22,22 @@ public class ConnectionListener implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 
-		commands = queueManager.getQueuedCMDS(player);
+		List<Command> commands = queueManager.getQueuedCMDS(player);
 
-		for (String command : commands) {
+		for (Command command : commands) {
 
-			if (command.split(";")[2].equalsIgnoreCase("true")) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.split(";")[1]);
+			if (command.getOnce() == true) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommand());
 
-				queueManager.insertHistory(command, "Console - Auto Remove");
+				queueManager.insertHistory(command, true, "Console - Auto Removed");
 				queueManager.deleteData(command);
 
 			} else {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.split(";")[1]);
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommand());
 
 				queueManager.addRunTime(command);
 			}
 		}
-		commands.clear();
 	}
 
 }
