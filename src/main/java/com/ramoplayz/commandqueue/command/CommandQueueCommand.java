@@ -59,9 +59,13 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 			return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "history", "list", "queue", "reload", "remove"), new ArrayList<>());
 		}
 
-		SubCommand subCommand = getSubCommand(args[0]);
+		try {
+			SubCommand subCommand = getSubCommand(args[0]);
 
-		return subCommand.tabComplete(Arrays.copyOfRange(args, 1, args.length));
+			return subCommand.tabComplete(Arrays.copyOfRange(args, 1, args.length));
+		} catch (NullPointerException x) {
+			return null;
+		}
 	}
 
 	public void addSubComamnd(SubCommand subCommand) {
