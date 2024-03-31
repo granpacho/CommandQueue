@@ -62,7 +62,7 @@ public class ListSubCommand extends SubCommand {
 						.replace("%once%", Boolean.toString(command.getOnce()))
 						.replace("%run_times%", Integer.toString(command.getRunTimes()))
 						.replace("%added_by%", Bukkit.getOfflinePlayer(command.getAddedBy()).getName())
-						.replace("%date_added%", command.getDateAdded().get(Calendar.MONTH) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR)));
+						.replace("%date_added%", (command.getDateAdded().get(Calendar.MONTH) + 1) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR)));
 			}
 			sender.sendMessage(Messages.LIST_SPACER.getMessage());
 			i++;

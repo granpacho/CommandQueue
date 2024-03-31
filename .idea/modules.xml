@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/CommandQueue.main.iml" filepath="$PROJECT_DIR$/.idea/modules/CommandQueue.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.ramoplayz.CommandQueue.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.ramoplayz.CommandQueue.main.iml" />
     </modules>
   </component>
 </project>

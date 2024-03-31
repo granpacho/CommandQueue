@@ -57,7 +57,6 @@ public class QueueSubCommand extends SubCommand {
 
 
 		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
 
 		if (FileManager.getConfig().getBoolean("always-once") == true || args[1].equalsIgnoreCase("once")) {
 

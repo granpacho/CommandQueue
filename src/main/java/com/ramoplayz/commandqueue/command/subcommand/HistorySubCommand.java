@@ -62,10 +62,10 @@ public class HistorySubCommand extends SubCommand {
 						.replace("%once%", Boolean.toString(command.getOnce()))
 						.replace("%run_times%", Integer.toString(command.getRunTimes()))
 						.replace("%added_by%", Bukkit.getOfflinePlayer(command.getAddedBy()).getName())
-						.replace("%date_added%", command.getDateAdded().get(Calendar.MONTH) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR))
+						.replace("%date_added%", (command.getDateAdded().get(Calendar.MONTH) + 1) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR))
 						.replace("%ran_command%", Boolean.toString(command.getRanCommand()))
 						.replace("%removed_by%", command.getRemovedBy())
-						.replace("%date_removed%", command.getDateRemoved().get(Calendar.MONTH) + "/" + command.getDateRemoved().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateRemoved().get(Calendar.YEAR)));
+						.replace("%date_removed%", (command.getDateRemoved().get(Calendar.MONTH) + 1) + "/" + command.getDateRemoved().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateRemoved().get(Calendar.YEAR)));
 			}
 			sender.sendMessage(Messages.HISTORY_SPACER.getMessage());
 			i++;
