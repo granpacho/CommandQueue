@@ -64,10 +64,4 @@ public final class CommandQueuePlugin extends JavaPlugin {
 		commandQueueCommand.addSubComamnd(new ReloadSubCommand());
 		commandQueueCommand.addSubComamnd(new RemoveSubCommand(queueManager));
 	}
-
-	public void queueCommand(OfflinePlayer target, String command, boolean once, OfflinePlayer sender) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH);
-		queueManager.insertCommand(new Command(target.getUniqueId(), command, once, 0, sender.getUniqueId(), cal));
-	}
 }
