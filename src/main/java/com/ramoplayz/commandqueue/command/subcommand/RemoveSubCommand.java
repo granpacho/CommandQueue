@@ -3,7 +3,7 @@ package com.ramoplayz.commandqueue.command.subcommand;
 import com.ramoplayz.commandqueue.Messages;
 import com.ramoplayz.commandqueue.command.SubCommand;
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -45,23 +45,23 @@ public class RemoveSubCommand extends SubCommand {
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 
-		List<Command> commands = queueManager.getQueuedCMDS(target);
+		List<PlayerCommand> playerCommands = queueManager.getQueuedCMDS(target);
 
 		try {
-			Command command = commands.get(Integer.valueOf(args[1]));
+			PlayerCommand playerCommand = playerCommands.get(Integer.valueOf(args[1]));
 
-			queueManager.insertHistory(command, false, sender.getDisplayName());
-			queueManager.deleteData(command);
+			queueManager.insertHistory(playerCommand, false, sender.getDisplayName());
+			queueManager.deleteData(playerCommand);
 
 			sender.sendMessage(Messages.REMOVED_COMMAND.getMessage()
-					.replace("%command%", command.getCommand())
+					.replace("%command%", playerCommand.getCommand())
 					.replace("%player%", target.getName()));
 		} catch (NumberFormatException | ArrayIndexOutOfBoundsException x) {
 			sender.sendMessage(Messages.INVALID_NUMBER.getMessage());
 			return;
 		}
 
-		commands.clear();
+		playerCommands.clear();
 	}
 
 	@Override

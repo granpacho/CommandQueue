@@ -1,7 +1,7 @@
 package com.ramoplayz.commandqueue.listener;
 
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,20 +22,20 @@ public class ConnectionListener implements Listener {
 	public void onJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
 
-		List<Command> commands = queueManager.getQueuedCMDS(player);
+		List<PlayerCommand> playerCommands = queueManager.getQueuedCMDS(player);
 
-		for (Command command : commands) {
+		for (PlayerCommand playerCommand : playerCommands) {
 
-			if (command.getOnce() == true) {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommand());
+			if (playerCommand.getOnce() == true) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), playerCommand.getCommand());
 
-				queueManager.insertHistory(command, true, "Console - Auto Removed");
-				queueManager.deleteData(command);
+				queueManager.insertHistory(playerCommand, true, "Console - Auto Removed");
+				queueManager.deleteData(playerCommand);
 
 			} else {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.getCommand());
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), playerCommand.getCommand());
 
-				queueManager.addRunTime(command);
+				queueManager.addRunTime(playerCommand);
 			}
 		}
 	}

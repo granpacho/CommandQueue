@@ -3,7 +3,7 @@ package com.ramoplayz.commandqueue.object;
 import java.util.Calendar;
 import java.util.UUID;
 
-public class Command {
+public class PlayerCommand {
 
 	/* Queued Commands & History Commands */
 	private UUID player;
@@ -20,7 +20,7 @@ public class Command {
 
 	/* Queued Commands */
 
-	public Command(UUID player, String command, boolean once, int runTimes, UUID addedBy, Calendar dateAdded) {
+	public PlayerCommand(UUID player, String command, boolean once, int runTimes, UUID addedBy, Calendar dateAdded) {
 		this.player = player;
 		this.command = command;
 		this.once = once;
@@ -31,7 +31,7 @@ public class Command {
 
 	/* History Commands */
 	
-	public Command(UUID player, String command, boolean once, int runTimes, UUID addedBy, Calendar dateAdded, boolean ranCommand, String removedBy, Calendar dateRemoved) {
+	public PlayerCommand(UUID player, String command, boolean once, int runTimes, UUID addedBy, Calendar dateAdded, boolean ranCommand, String removedBy, Calendar dateRemoved) {
 		this.player = player;
 		this.command = command;
 		this.once = once;

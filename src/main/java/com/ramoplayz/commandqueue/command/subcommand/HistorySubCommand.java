@@ -4,7 +4,7 @@ import com.ramoplayz.commandqueue.Messages;
 import com.ramoplayz.commandqueue.command.SubCommand;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import com.ramoplayz.commandqueue.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -46,7 +46,7 @@ public class HistorySubCommand extends SubCommand {
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 
-		List<Command> commands = queueManager.getHistoryCMDS(target);
+		List<PlayerCommand> playerCommands = queueManager.getHistoryCMDS(target);
 
 		sender.sendMessage(Messages.HISTORY_SPACER.getMessage());
 		sender.sendMessage(Messages.HISTORY_HEADER.getMessage()
@@ -54,24 +54,24 @@ public class HistorySubCommand extends SubCommand {
 		sender.sendMessage(Messages.HISTORY_SPACER.getMessage());
 
 		int i = 0;
-		for (Command command : commands) {
+		for (PlayerCommand playerCommand : playerCommands) {
 			for (String message : MessageUtil.translate(FileManager.getConfig().getStringList("messages.commands.history.history-commands"))) {
 				sender.sendMessage(message
 						.replace("%number%", Integer.toString(i))
-						.replace("%command%", command.getCommand())
-						.replace("%once%", Boolean.toString(command.getOnce()))
-						.replace("%run_times%", Integer.toString(command.getRunTimes()))
-						.replace("%added_by%", Bukkit.getOfflinePlayer(command.getAddedBy()).getName())
-						.replace("%date_added%", (command.getDateAdded().get(Calendar.MONTH) + 1) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR))
-						.replace("%ran_command%", Boolean.toString(command.getRanCommand()))
-						.replace("%removed_by%", command.getRemovedBy())
-						.replace("%date_removed%", (command.getDateRemoved().get(Calendar.MONTH) + 1) + "/" + command.getDateRemoved().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateRemoved().get(Calendar.YEAR)));
+						.replace("%command%", playerCommand.getCommand())
+						.replace("%once%", Boolean.toString(playerCommand.getOnce()))
+						.replace("%run_times%", Integer.toString(playerCommand.getRunTimes()))
+						.replace("%added_by%", Bukkit.getOfflinePlayer(playerCommand.getAddedBy()).getName())
+						.replace("%date_added%", (playerCommand.getDateAdded().get(Calendar.MONTH) + 1) + "/" + playerCommand.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + playerCommand.getDateAdded().get(Calendar.YEAR))
+						.replace("%ran_command%", Boolean.toString(playerCommand.getRanCommand()))
+						.replace("%removed_by%", playerCommand.getRemovedBy())
+						.replace("%date_removed%", (playerCommand.getDateRemoved().get(Calendar.MONTH) + 1) + "/" + playerCommand.getDateRemoved().get(Calendar.DAY_OF_MONTH) + "/" + playerCommand.getDateRemoved().get(Calendar.YEAR)));
 			}
 			sender.sendMessage(Messages.HISTORY_SPACER.getMessage());
 			i++;
 		}
 
-		commands.clear();
+		playerCommands.clear();
 	}
 
 	@Override

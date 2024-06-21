@@ -4,7 +4,7 @@ import com.ramoplayz.commandqueue.Messages;
 import com.ramoplayz.commandqueue.command.SubCommand;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import com.ramoplayz.commandqueue.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -46,7 +46,7 @@ public class ListSubCommand extends SubCommand {
 
 		OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
 
-		List<Command> commands = queueManager.getQueuedCMDS(target);
+		List<PlayerCommand> playerCommands = queueManager.getQueuedCMDS(target);
 
 		sender.sendMessage(Messages.LIST_SPACER.getMessage());
 		sender.sendMessage(Messages.LIST_HEADER.getMessage()
@@ -54,21 +54,21 @@ public class ListSubCommand extends SubCommand {
 		sender.sendMessage(Messages.LIST_SPACER.getMessage());
 
 		int i = 0;
-		for (Command command : commands) {
+		for (PlayerCommand playerCommand : playerCommands) {
 			for (String message : MessageUtil.translate(FileManager.getConfig().getStringList("messages.commands.list.list-commands"))) {
 				sender.sendMessage(message
 						.replace("%number%", Integer.toString(i))
-						.replace("%command%", command.getCommand())
-						.replace("%once%", Boolean.toString(command.getOnce()))
-						.replace("%run_times%", Integer.toString(command.getRunTimes()))
-						.replace("%added_by%", Bukkit.getOfflinePlayer(command.getAddedBy()).getName())
-						.replace("%date_added%", (command.getDateAdded().get(Calendar.MONTH) + 1) + "/" + command.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + command.getDateAdded().get(Calendar.YEAR)));
+						.replace("%command%", playerCommand.getCommand())
+						.replace("%once%", Boolean.toString(playerCommand.getOnce()))
+						.replace("%run_times%", Integer.toString(playerCommand.getRunTimes()))
+						.replace("%added_by%", Bukkit.getOfflinePlayer(playerCommand.getAddedBy()).getName())
+						.replace("%date_added%", (playerCommand.getDateAdded().get(Calendar.MONTH) + 1) + "/" + playerCommand.getDateAdded().get(Calendar.DAY_OF_MONTH) + "/" + playerCommand.getDateAdded().get(Calendar.YEAR)));
 			}
 			sender.sendMessage(Messages.LIST_SPACER.getMessage());
 			i++;
 		}
 
-		commands.clear();
+		playerCommands.clear();
 	}
 
 	@Override

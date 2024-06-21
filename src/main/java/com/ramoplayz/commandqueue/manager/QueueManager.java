@@ -1,7 +1,7 @@
 package com.ramoplayz.commandqueue.manager;
 
 import com.ramoplayz.commandqueue.CommandQueuePlugin;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import org.bukkit.OfflinePlayer;
 
 import java.sql.Connection;
@@ -24,8 +24,8 @@ public class QueueManager {
 		this.connection = connection;
 	}
 
-	public List<Command> getQueuedCMDS(OfflinePlayer target) {
-		List<Command> commands = new ArrayList<>();
+	public List<PlayerCommand> getQueuedCMDS(OfflinePlayer target) {
+		List<PlayerCommand> playerCommands = new ArrayList<>();
 
 		Calendar calDateAdded = Calendar.getInstance();
 
@@ -46,7 +46,7 @@ public class QueueManager {
 
 				calDateAdded.set(Integer.valueOf(dateAdded.split(";")[0]), Integer.valueOf(dateAdded.split(";")[1]), Integer.valueOf(dateAdded.split(";")[2]));
 
-				commands.add(new Command(uuid, command, once, runTimes, addedBy, calDateAdded));
+				playerCommands.add(new PlayerCommand(uuid, command, once, runTimes, addedBy, calDateAdded));
 
 			}
 
@@ -54,11 +54,11 @@ public class QueueManager {
 			x.printStackTrace();
 		}
 
-		return commands;
+		return playerCommands;
 	}
 
-	public List<Command> getHistoryCMDS(OfflinePlayer target) {
-		List<Command> commands = new ArrayList<>();
+	public List<PlayerCommand> getHistoryCMDS(OfflinePlayer target) {
+		List<PlayerCommand> playerCommands = new ArrayList<>();
 
 		Calendar calDateAdded = Calendar.getInstance();
 		Calendar calDateRemoved = Calendar.getInstance();
@@ -83,28 +83,28 @@ public class QueueManager {
 				calDateAdded.set(Integer.valueOf(dateAdded.split(";")[0]), Integer.valueOf(dateAdded.split(";")[1]), Integer.valueOf(dateAdded.split(";")[2]));
 				calDateRemoved.set(Integer.valueOf(dateRemoved.split(";")[0]), Integer.valueOf(dateRemoved.split(";")[1]), Integer.valueOf(dateRemoved.split(";")[2]));
 
-				commands.add(new Command(uuid, command, once, runTimes, addedBy, calDateAdded, ranCommand, removedBy, calDateRemoved));
+				playerCommands.add(new PlayerCommand(uuid, command, once, runTimes, addedBy, calDateAdded, ranCommand, removedBy, calDateRemoved));
 			}
 
 		} catch (SQLException x) {
 			x.printStackTrace();
 		}
 
-		return commands;
+		return playerCommands;
 	}
 
 
-	public void insertCommand(Command command) {
-		Calendar calDateAdded = command.getDateAdded();
+	public void insertCommand(PlayerCommand playerCommand) {
+		Calendar calDateAdded = playerCommand.getDateAdded();
 
 		try {
 
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO CQDB (UUID, COMMAND, ONCE, RunTimes, ADDEDBY, DATEADDED) VALUES (?, ?, ?, ?, ?, ?);");
-			statement.setString(1, command.getPlayer().toString());
-			statement.setString(2, command.getCommand());
-			statement.setBoolean(3, command.getOnce());
-			statement.setInt(4, command.getRunTimes());
-			statement.setString(5, command.getAddedBy().toString());
+			statement.setString(1, playerCommand.getPlayer().toString());
+			statement.setString(2, playerCommand.getCommand());
+			statement.setBoolean(3, playerCommand.getOnce());
+			statement.setInt(4, playerCommand.getRunTimes());
+			statement.setString(5, playerCommand.getAddedBy().toString());
 			statement.setString(6, calDateAdded.get(Calendar.YEAR) + ";" + calDateAdded.get(Calendar.MONTH) + ";" + calDateAdded.get(Calendar.DAY_OF_MONTH));
 
 			statement.executeUpdate();
@@ -113,19 +113,19 @@ public class QueueManager {
 		}
 	}
 
-	public void insertHistory(Command command, boolean ranCommand, String removedBy) {
-		Calendar calDateAdded = command.getDateAdded();
+	public void insertHistory(PlayerCommand playerCommand, boolean ranCommand, String removedBy) {
+		Calendar calDateAdded = playerCommand.getDateAdded();
 
 		Calendar calDateRemoved = Calendar.getInstance();
 
 		try {
 
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO CQHistoryDB (UUID, Command, Once, RunTimes, AddedBy, DateAdded, RanCommand, RemovedBy, DateRemoved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
-			statement.setString(1, command.getPlayer().toString());
-			statement.setString(2, command.getCommand());
-			statement.setBoolean(3, command.getOnce());
-			statement.setInt(4, command.getRunTimes());
-			statement.setString(5, command.getAddedBy().toString());
+			statement.setString(1, playerCommand.getPlayer().toString());
+			statement.setString(2, playerCommand.getCommand());
+			statement.setBoolean(3, playerCommand.getOnce());
+			statement.setInt(4, playerCommand.getRunTimes());
+			statement.setString(5, playerCommand.getAddedBy().toString());
 			statement.setString(6, calDateAdded.get(Calendar.YEAR) + ";" + calDateAdded.get(Calendar.MONTH) + ";" + calDateAdded.get(Calendar.DAY_OF_MONTH));
 			statement.setBoolean(7, ranCommand);
 			statement.setString(8, removedBy);
@@ -138,30 +138,30 @@ public class QueueManager {
 		}
 	}
 
-	public void addRunTime(Command command) {
+	public void addRunTime(PlayerCommand playerCommand) {
 		try {
 			PreparedStatement statement = connection.prepareStatement("UPDATE CQDB SET RunTimes = ? WHERE UUID = ? AND Command = ? AND Once = ?;");
 
-			statement.setInt(1, command.getRunTimes() + 1);
-			statement.setString(2, command.getPlayer().toString());
-			statement.setString(3, command.getCommand());
-			statement.setBoolean(4, command.getOnce());
+			statement.setInt(1, playerCommand.getRunTimes() + 1);
+			statement.setString(2, playerCommand.getPlayer().toString());
+			statement.setString(3, playerCommand.getCommand());
+			statement.setBoolean(4, playerCommand.getOnce());
 
 		} catch (SQLException x) {
 			x.printStackTrace();
 		}
 	}
 
-	public void deleteData(Command command) {
-		Calendar calDateAdded = command.getDateAdded();
+	public void deleteData(PlayerCommand playerCommand) {
+		Calendar calDateAdded = playerCommand.getDateAdded();
 
 		try {
 			PreparedStatement statement = connection.prepareStatement("DELETE FROM CQDB WHERE UUID = ? AND Command = ? AND Once = ? AND RunTimes = ? AND AddedBy = ? AND DateAdded = ?;");
-			statement.setString(1, command.getPlayer().toString());
-			statement.setString(2, command.getCommand());
-			statement.setBoolean(3, command.getOnce());
-			statement.setInt(4, command.getRunTimes());
-			statement.setString(5, command.getAddedBy().toString());
+			statement.setString(1, playerCommand.getPlayer().toString());
+			statement.setString(2, playerCommand.getCommand());
+			statement.setBoolean(3, playerCommand.getOnce());
+			statement.setInt(4, playerCommand.getRunTimes());
+			statement.setString(5, playerCommand.getAddedBy().toString());
 			statement.setString(6, calDateAdded.get(Calendar.YEAR) + ";" + calDateAdded.get(Calendar.MONTH) + ";" + calDateAdded.get(Calendar.DAY_OF_MONTH));
 
 			statement.executeUpdate();

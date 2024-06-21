@@ -6,13 +6,10 @@ import com.ramoplayz.commandqueue.listener.ConnectionListener;
 import com.ramoplayz.commandqueue.manager.DatabaseManager;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
-import java.util.Calendar;
 
 public final class CommandQueuePlugin extends JavaPlugin {
 

@@ -4,7 +4,7 @@ import com.ramoplayz.commandqueue.Messages;
 import com.ramoplayz.commandqueue.command.SubCommand;
 import com.ramoplayz.commandqueue.manager.FileManager;
 import com.ramoplayz.commandqueue.manager.QueueManager;
-import com.ramoplayz.commandqueue.object.Command;
+import com.ramoplayz.commandqueue.object.PlayerCommand;
 import com.ramoplayz.commandqueue.util.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -64,7 +64,7 @@ public class QueueSubCommand extends SubCommand {
 				command.append(args[i] + " ");
 			}
 
-			queueManager.insertCommand(new Command(target.getUniqueId(), command.toString().trim(), true, 0, sender.getUniqueId(), cal));
+			queueManager.insertCommand(new PlayerCommand(target.getUniqueId(), command.toString().trim(), true, 0, sender.getUniqueId(), cal));
 
 			sender.sendMessage(MessageUtil.translate(FileManager.getMessage("commands.queue.added-command-once"))
 					.replace("%command%", command.toString().trim())
@@ -76,7 +76,7 @@ public class QueueSubCommand extends SubCommand {
 			command.append(args[i] + " ");
 		}
 
-		queueManager.insertCommand(new Command(target.getUniqueId(), command.toString().trim(), false, 0, sender.getUniqueId(), cal));
+		queueManager.insertCommand(new PlayerCommand(target.getUniqueId(), command.toString().trim(), false, 0, sender.getUniqueId(), cal));
 
 		sender.sendMessage(MessageUtil.translate(FileManager.getMessage("commands.queue.added-command"))
 				.replace("%command%", command.toString().trim())
