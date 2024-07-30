@@ -1,7 +1,9 @@
 package com.ramoplayz.commandqueue.command;
 
 import com.ramoplayz.commandqueue.Messages;
+import com.ramoplayz.commandqueue.command.subcommand.RemoveSubCommand;
 import com.ramoplayz.commandqueue.manager.FileManager;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -49,7 +51,6 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 		subCommand.execute(player, Arrays.copyOfRange(args, 1, args.length));
 
 		return false;
-
 	}
 
 	@Override
@@ -58,6 +59,7 @@ public class CommandQueueCommand implements CommandExecutor, TabCompleter {
 		if (args.length == 1) {
 			return StringUtil.copyPartialMatches(args[0], Arrays.asList("help", "history", "list", "queue", "reload", "remove"), new ArrayList<>());
 		}
+		
 
 		try {
 			SubCommand subCommand = getSubCommand(args[0]);
