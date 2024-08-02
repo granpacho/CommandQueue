@@ -19,7 +19,6 @@ public class FileManager {
 	public void setupFiles() {
 		try {
 			config = YamlDocument.create(new File(CQP.getDataFolder(), "config.yml"), CQP.getResource("config.yml"));
-
 		} catch (IOException x) {
 			x.printStackTrace();
 		}
