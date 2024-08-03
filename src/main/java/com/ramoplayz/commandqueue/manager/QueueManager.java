@@ -147,6 +147,8 @@ public class QueueManager {
 			statement.setString(3, playerCommand.getCommand());
 			statement.setBoolean(4, playerCommand.getOnce());
 
+			statement.executeUpdate();
+
 		} catch (SQLException x) {
 			x.printStackTrace();
 		}
